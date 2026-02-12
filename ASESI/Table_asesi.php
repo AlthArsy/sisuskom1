@@ -509,19 +509,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['search'])) {
                             </tbody>
                         </table>
                     </div>
-                                
-                    <?php if (!empty($search_criteria['id_asesi']) || !empty($search_criteria['nama_asesi']) || !empty($search_criteria['nik'])): ?>
-                        <div style="margin-top: 20px; text-align: center;">
-                            <form method="post" style="display: inline;">
-                                <input type="hidden" name="id_asesi" value="">
-                                <input type="hidden" name="nama_asesi" value="">
-                                <input type="hidden" name="nik" value="">
-                                <button type="submit" name="search" class="btn btn-primary">
-                                     Tampilkan Semua Data
-                                </button>
-                            </form>
-                        </div>
-                    <?php endif; ?>
                 <?php endif; ?>
             </div>
         </div>
