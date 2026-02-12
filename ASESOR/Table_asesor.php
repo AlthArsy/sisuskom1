@@ -37,6 +37,47 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['search'])) {
     ];
 
     $search_performed = true;
+
+    $query = "SELECT * FROM tb_asesor WHERE 1=1";
+    $params = [];
+    $types = '';
+
+    if (!empty($id_asesor)) {
+        $query .= " AND id_asesor = ?";
+        $params[] = $id_asesor;
+        $types .= 'i';
+    }
+    if (!empty($no_reg)) {
+        $query .= " AND no_reg LIKE ?";
+        $params[] = '%' . $no_reg . '%';
+        $types .= 's';
+    }
+    if (!empty($nama_asesor)) {
+        $query .= " AND nama_asesor LIKE ?";
+        $params[] = '%' . $nama_asesor . '%';
+        $types .= 's';
+    }
+    $query .= " ORDER BY no_reg ASC";
+    if (empty($params)) {
+        $search_results = $all_asesor;
+    } else {
+        $stmt = mysqli_prepare($koneksi, $query);
+        if ($stmt === false) {
+            die('Prepare failed: ' . htmlspecialchars(mysqli_error($koneksi)));
+        }
+
+        if (!empty($types)) {
+            mysqli_stmt_bind_param($stmt, $types, ...$params);
+        }
+
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
+        $search_results = [];
+        while ($row = mysqli_fetch_assoc($result)) {
+            $search_results[] = $row;
+        }
+        mysqli_stmt_close($stmt);
+    }
 }
 ?>
 <style>
@@ -450,19 +491,6 @@ function confirmDelete(id, nama) {
                         </tbody>
                     </table>
                 </div>
-                            
-                <?php if (!empty($search_criteria['id_asesor']) || !empty($search_criteria['no_reg']) || !empty($search_criteria['nama_asesor'])): ?>
-                    <div style="margin-top: 20px; text-align: center;">
-                        <form method="post" style="display: inline;">
-                            <input type="hidden" name="id_asesor" value="">
-                            <input type="hidden" name="no_reg" value="">
-                            <input type="hidden" name="nama_asesor" value="">
-                            <button type="submit" name="search" class="btn btn-primary">
-                                 Tampilkan Semua Data
-                            </button>
-                        </form>
-                    </div>
-                <?php endif; ?>
             <?php endif; ?>
         </div>
     </div>
