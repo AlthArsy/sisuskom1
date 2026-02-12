@@ -19,8 +19,7 @@ if ($id_elemen > 0) {
         SELECT 
             tb_elemen.no_elemen, 
             tb_elemen.nama_elemen,
-            tb_asesor.nama_asesor,
-            tb_asesor.no_reg
+            tb_asesor.nama_asesor
         FROM tb_elemen
         LEFT JOIN tb_unit_kompetensi ON tb_elemen.id_unit = tb_unit_kompetensi.id_unit
         LEFT JOIN tb_skema ON tb_unit_kompetensi.id_skema = tb_skema.id_skema

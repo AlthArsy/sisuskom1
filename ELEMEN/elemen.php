@@ -15,7 +15,16 @@ include '../koneksi.php';
 $id_unit = isset($_GET['id_unit']) ? intval($_GET['id_unit']) : 0;
 
 if ($id_unit > 0) {
-    $query_skema = "SELECT kode_unit, judul_unit FROM tb_unit_kompetensi WHERE id_unit = ?";
+    $query_skema = "
+        SELECT 
+            tb_unit_kompetensi.kode_unit, 
+            tb_unit_kompetensi.judul_unit
+            tb_asesor.nama_asesor
+        FROM tb_unit_kompetensi
+        LEFT JOIN tb_skema ON tb_unit_kompetensi.id_skema = tb_skema.id_skema
+        LEFT JOIN tb_asesor ON tb_skema.id_asesor = tb_asesor.id_asesor
+        WHERE tb_unit_kompetensi.id_unit = ?
+    ";
     $stmt_skema = mysqli_prepare($koneksi, $query_skema);
     mysqli_stmt_bind_param($stmt_skema, "i", $id_unit);
     mysqli_stmt_execute($stmt_skema);
@@ -471,6 +480,7 @@ tbody tr:last-child td {
             <h3>Informasi unit</h3>
             <p><strong>Kode Unit:</strong> <?= htmlspecialchars($skema_data['kode_unit']) ?></p>
             <p><strong>Judul Unit:</strong> <?= htmlspecialchars($skema_data['judul_unit']) ?></p>
+            <p><strong>Asesor:</strong> <?= htmlspecialchars($skema_data['nama_asesor'])?></p>
         </div>
         
         <table>
