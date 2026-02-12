@@ -450,19 +450,6 @@ function confirmDelete(id, nama) {
                         </tbody>
                     </table>
                 </div>
-                            
-                <?php if (!empty($search_criteria['id_asesor']) || !empty($search_criteria['no_reg']) || !empty($search_criteria['nama_asesor'])): ?>
-                    <div style="margin-top: 20px; text-align: center;">
-                        <form method="post" style="display: inline;">
-                            <input type="hidden" name="id_asesor" value="">
-                            <input type="hidden" name="no_reg" value="">
-                            <input type="hidden" name="nama_asesor" value="">
-                            <button type="submit" name="search" class="btn btn-primary">
-                                 Tampilkan Semua Data
-                            </button>
-                        </form>
-                    </div>
-                <?php endif; ?>
             <?php endif; ?>
         </div>
     </div>
